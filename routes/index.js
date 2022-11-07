@@ -6,7 +6,7 @@ var PORT = 3000;
 
 var find_all=function (req,res,next)
 {
-  Article.findAll().then(books =>
+  Book.findAll().then(books =>
   {
     res.json(books);
 });
