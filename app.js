@@ -57,7 +57,7 @@ app.use((err, req, res, next) => {
     err.message = err.message || `404 Page Not Found`
     console.error(err.message);
   } else {
-    err.message = err.message || `Sorry! We couldn't find the page you were looking for..`
+    err.message = err.message || `Oooops! We couldn't find the page you were looking for..`
     console.error(err.message);
   }
   
