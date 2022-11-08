@@ -2,7 +2,6 @@ var express = require('express');
 const { sequelize } = require('../models');
 var router = express.Router();
 const Book = require('../models').Book;
-var PORT = 3000;
 
 var find_all=function (req,res,next)
 {
@@ -33,7 +32,7 @@ router.get('/', function(req, res, next) {
   // res.render('index', { title: 'Express' });
  });
 
-/* GET full list book listing */
+/* GET full list of book listings */
 router.get('/', asyncHandler(async (req, res) =>{
   const books = await Book.findAll({ order: [[ "createdAt", "DESC" ]]});
   res.render("books/index", { books, title: "Sequelize-It"});
@@ -73,9 +72,8 @@ router.post('/:id/edit', asyncHandler(async (req, res) => {
   }
 }));
 
-/* POST: Delete a book */
+/* POST: Delete an individual book */
 router.post("/:id/delete", asyncHandler(async (req, res) => {
-  res.render("books/delete", {book: {}, title: "Delete Book"})
   /* const book = await Book.findByPk(req.params.id);
   if(book) {
     await book.destroy();
@@ -83,6 +81,8 @@ router.post("/:id/delete", asyncHandler(async (req, res) => {
   } else {
     res.sendStatus(404);
   } */
+  res.render("books/delete", {book: {}, title: "Delete Book"})
+  
 }));
 
 module.exports = router;

@@ -1,5 +1,13 @@
-extends layout
+extends ../layout
 
 block content
-  h1= title
+  h1= Books
   p Welcome to #{title}
+  a(href="/books/new", class="btn-new") Create Book &#43;
+
+  each book in books 
+    book 
+      h3= book.title
+      include by_line 
+      p= book.description()
+      a(href = "/books/" + article.id) Read More &arr;
