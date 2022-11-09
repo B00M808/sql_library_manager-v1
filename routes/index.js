@@ -38,7 +38,6 @@ router.post('/', asyncHandler(async (req, res) => {
 /* GET: Show book detail form */
 router.get("/:id", asyncHandler(async (req, res) => {
   const book = await Book.findByPk(req.params.id);
-  //res.render("books/show", { book, title: book.title });
   if(book) {
     res.render("update-book", { book, title: book.title });  
   } else {
@@ -48,10 +47,8 @@ router.get("/:id", asyncHandler(async (req, res) => {
 
 /* Update book info in the database */
 router.post('/:id/edit', asyncHandler(async (req, res) => {
-  //res.redirect("/books/");
   const book = await Book.findByPk(req.params.id);
   if(book) {
-    //res.render("books/edit", { book, title: "Edit Book" });      
     await book.update(req.body);
     res.redirect("/books/" + book.id); 
   } else {

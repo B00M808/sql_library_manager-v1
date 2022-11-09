@@ -72,6 +72,8 @@ app.use('/users', usersRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
+  /*if statement, if not 404 create 500 error
+  */
 });
 
 //404 Error Handler to catch undefined or non-existent route requests
@@ -80,6 +82,7 @@ app.use((req, res, next) => {
   err.status = 404;
   next(err);
 });
+
 //Global Error Handler
 app.use((err, req, res, next) => {
   if (err) {
@@ -98,5 +101,6 @@ app.use((err, req, res, next) => {
 //Start up the server
 app.listen(3000, function() {
   console.log('Server started on port 3000');
-}) 
+})
+
 module.exports = app;
