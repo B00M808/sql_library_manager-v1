@@ -4,13 +4,25 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var db = require("./models/index");
-var PORT = 3000;
 
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: 'books.db'
 });
+
+/*Handler function to wrap each route */
+function asyncHandler(db){
+  return async(req, res, next) => {
+    try {
+      await db(req, res, next)
+    } catch(error) {
+      res.status(500).send(error);
+      /* Forward error to the global error handler
+      next(error); */
+    }
+  }
+}
 
 //Book Model
 class Book extends Sequelize.Model {}
@@ -37,6 +49,7 @@ console.log(movie.toJSON());
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const { builtinModules } = require('module');
 
 var app = express();
 db.sequelize.authenticate()
@@ -60,17 +73,6 @@ app.use('/users', usersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
-//commit
-// error handler
-// app.use(function(err, req, res, next) {
-//   // set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-//   // render the error page
-//   //res.status(err.status || 500);
-//   //res.render('error');
-// });
 
 //404 Error Handler to catch undefined or non-existent route requests
 app.use((req, res, next) => {
@@ -97,3 +99,4 @@ app.use((err, req, res, next) => {
 app.listen(3000, function() {
   console.log('Server started on port 3000');
 }) 
+module.exports = app;
