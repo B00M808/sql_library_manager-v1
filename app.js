@@ -40,7 +40,7 @@ try {
 const book = await Book.create({
   title: 'A Brief History of Time',
 });
-console.log(movie.toJSON());
+console.log(book.toJSON());
 
 } catch (error) {
   console.log('Error connecting to the database: ', error);

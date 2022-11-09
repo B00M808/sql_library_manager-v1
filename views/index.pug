@@ -23,6 +23,5 @@ block content
   each book in books 
     book 
       h3= book.title
-      include by_line 
-      p= book.description()
+      p= book.description
       a(href = "/books/" + book.id) Read More &arr;
