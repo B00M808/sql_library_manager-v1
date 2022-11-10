@@ -1,27 +1,21 @@
 extends layout
 
 block content
-  h1= Books
-  p Welcome to #{title}
-  a(href="/books/new", class="btn-new") Create Book &#43;
+  h1 Books
+  p
+    a.button(href="/books/new") Create Book
   table
-  thead
-    tr
-      th Title
-      th Author
-      th Genre
-      th Year
-  tbody
-    tr
-      td
-        a(href='book_detail.html') The Hunger Games
-      td Suzanne Collins
-      td Fantasy
-      td 2008
-  tbody  
-  thead
-  each book in books 
-    book 
-      h3= book.title
-      p= book.description
-      a(href = "/books/" + book.id) Read More &arr;
+    thead
+      tr
+        th Title
+        th Author
+        th Genre
+        th Year
+    tbody
+      each book in books
+        tr
+          td
+            a(href='book_detail.html')= book.title
+          td= book.author
+          td= book.genre
+          td= book.year

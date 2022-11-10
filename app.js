@@ -11,19 +11,6 @@ const sequelize = new Sequelize({
   storage: 'books.db'
 });
 
-/*Handler function to wrap each route */
-function asyncHandler(db){
-  return async(req, res, next) => {
-    try {
-      await db(req, res, next)
-    } catch(error) {
-      res.status(500).send(error);
-      /* Forward error to the global error handler
-      next(error); */
-    }
-  }
-}
-
 //Book Model
 class Book extends Sequelize.Model {}
 Book.init({
@@ -69,12 +56,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
+/* catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  res.render('error', { err });
   /*if statement, if not 404 create 500 error
-  */
+  
 });
+*/
 
 //404 Error Handler to catch undefined or non-existent route requests
 app.use((req, res, next) => {
@@ -87,6 +75,21 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   if (err) {
     console.log('Global error handler called', err);
+    res.render('page-not-found');
+  }
+  if (err.status === 500) {
+    err.message = err.message || `404 Page Not Found`;
+    console.error(err.message);
+    res.render('error', { err });
+  } else {
+    err.message = err.message || `Oooops! We couldn't find the page you were looking for..`;
+    console.error(err.message);
+    res.render('page-not-found');
+  }
+});
+/* app.use((err, req, res, next) => {
+  if (err) {
+    console.log('Global error handler called', err);
   }
   if (err.status === 500) {
     err.message = err.message || `404 Page Not Found`
@@ -96,7 +99,8 @@ app.use((err, req, res, next) => {
     console.error(err.message);
   }
   
-});
+}); 
+*/
 
 //Start up the server
 app.listen(3000, function() {
