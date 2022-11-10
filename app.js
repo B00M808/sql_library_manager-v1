@@ -6,36 +6,8 @@ var logger = require('morgan');
 var db = require("./models/index");
 
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: 'books.db'
-});
-
-//Book Model
-class Book extends Sequelize.Model {}
-Book.init({
-  title: Sequelize.STRING,
-}, { sequelize });
-
-//async IIFE
-(async () => {
-//sync Books table
-await sequelize.sync({ force: true });
-
-try {
-//Instance of the Book class reps a database row
-const book = await Book.create({
-  title: 'A Brief History of Time',
-});
-console.log(book.toJSON());
-
-} catch (error) {
-  console.log('Error connecting to the database: ', error);
-}
-})();
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 const { builtinModules } = require('module');
 
 var app = express();
@@ -54,7 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Modules
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 //404 Error Handler to catch undefined or non-existent route requests
 app.use((req, res, next) => {
