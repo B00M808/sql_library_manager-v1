@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Modules
 app.use('/', indexRouter);
 
-//404 Error Handler to catch undefined or non-existent route requests
+/* 404 Error Handler to catch undefined or non-existent route requests */
 app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
@@ -38,16 +38,16 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   if (err) {
     console.log('Global error handler called', err);
-    res.render('page-not-found');
+    //res.render('page-not-found');
   }
-  if (err.status === 500) {
+  if (err.status === 404) {
     err.message = err.message || `404 Page Not Found`;
     console.error(err.message);
-    res.render('error', { err });
+    res.status(404).render('page-not-found');
   } else {
-    err.message = err.message || `Oooops! We couldn't find the page you were looking for..`;
+    err.message = err.message || `Oooops! Server Not Found`;
     console.error(err.message);
-    res.render('page-not-found');
+    res.status(500).render('error', { err });
   }
 });
 
