@@ -63,12 +63,14 @@ router.post("/books/new", asyncHandler(async (req, res) => {
   }));
 
 /* GET: Show book detail form */
-router.get("/books/:id", asyncHandler(async (req, res) => {
+router.get("/books/:id", asyncHandler(async (req, res, next) => {
     const book = await Book.findByPk(req.params.id);
     if(book) {
       res.render("update-book", { book });  
     } else {
-      res.sendStatus(404);
+      const err = new Error("Page Not Found");
+      err.status = 404;
+      next(err);
     }
   })
 

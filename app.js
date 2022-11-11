@@ -47,7 +47,7 @@ app.use((err, req, res, next) => {
   } else {
     err.message = err.message || `Oooops! Server Not Found`;
     console.error(err.message);
-    res.status(500).render('error', { err });
+    res.status(err.status || 500).render('error', { err });
   }
 });
 
